@@ -1,10 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
+
+    [SerializeField] private AudioMixer mixer;
 
     [SerializeField] private AudioSource themePlayer;
     [SerializeField] private AudioDistortionFilter themeDistortionFilter;
@@ -47,4 +50,8 @@ public class AudioManager : MonoBehaviour
     public void BulletShotSide(float side) => bulletShotSoundsPlayer.panStereo = side;
 
     public void BulletColision() => bulletColisionSoundsPlayer.PlayOneShot(bulletColisionSounds[Random.Range(0, bulletColisionSounds.Length)]);
+
+    public void MusicVolumeChange(float value) => mixer.SetFloat("musicVol", Mathf.Log10(value == 0 ? 0.001f : value) * 20);
+
+    public void EffectsVolumeChange(float value) => mixer.SetFloat("effectsVol", Mathf.Log10(value == 0 ? 0.001f : value) * 20);
 }
